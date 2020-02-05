@@ -1,0 +1,104 @@
+	<html>
+	<head>
+<style>
+div.ma h2{
+font-family:Algerian;
+ text-shadow: 1px 1px 1px #000;
+}
+</style>
+		    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src ="js/bootstrapjquery.js"></script>
+<script src ="js/bootstrap.js"></script>
+		<script>
+		
+var serverResult="";
+
+		$(document).ready(function()
+		{
+			$.ajax({
+  				method: "GET",
+  				crossDomain: true,
+  				url: "https://www.thecocktaildb.com/api/json/v1/1/filter.php?g=Cocktail_glass",
+  				dataType: "json",
+  				async: true,
+  				success: function(data) {
+				serverResult=data;
+  					$("#div").html("");
+  				content="<table class='table table-hover table-striped table-condensed' style='width:100%'>";
+			content+="<tr><th>Name</th><th>Cocktail</th><th>DrinkID</th></tr>";
+  					for(a in data.drinks)
+  					{
+content+="<tr><td>"+data.drinks[a].strDrink+"</td><td>"+"<img height=100px width=100px src='"+data.drinks[a].strDrinkThumb+"'>"+"</td><td>"+data.drinks[a].idDrink+"</td></tr>";
+  					}
+  					$("#div").append(content);
+  				},
+  				error: function() {
+    				infoContent = "<div>Sorry, data is not coming through. Refresh and try again.</div>";
+  					}
+		});
+		});
+			
+function getResult(){
+
+var isthere=false;
+var searchText=$("#gh").val();
+alert("you entered "+searchText );
+
+
+	content="<table class='table table-hover table-striped table-condensed' style='width:100%'>";
+			content+="<tr><th>Name</th><th>Cocktail</th><th>DrinkID</th></tr>";
+			
+for(index in serverResult.drinks){
+//alert(serverResult.drinks[index].drinks.id);
+
+if(serverResult.drinks[index].idDrink===searchText){
+//serverResult.drinks[index].strDrink, strDRinkThum
+//alert("Found");
+
+	content+="<tr><td>"+serverResult.drinks[index].strDrink+"</td><td>"+"<img height=100px width=100px src='"+serverResult.drinks[index].strDrinkThumb+"'>"+"</td><td>"+serverResult.drinks[index].idDrink+"</td></tr>";
+	isthere=true;
+	break;
+}
+}
+if(isthere==false){
+alert("No Available");
+}
+else{
+content+="</table>";
+}
+
+$("#div").html(content);
+
+//alert(serverResult);
+}
+
+
+				
+</script>
+</head>
+	<body>
+	<div class="ma">
+<center>
+	<h2 class="text-primary">Ordinary Coctail Drink</h2>
+		<hr/>
+    <font face="Gabriola" color="blue"><b> <h4>Enter DrinkId.....</h4>
+	 </b></font>  <input tye="text" id="gh"/>
+	   
+		<input type="button" value="GetResult" onclick="getResult()"/>
+		</center>
+
+
+
+		</div>
+		<center>
+			<div id="div">
+			</div>
+			
+			</center>
+	</body>
+</html>

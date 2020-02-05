@@ -1,0 +1,141 @@
+	<html>
+	<head>
+<style>
+div 
+{
+    background: linear-gradient(to bottom, #ffff66 0%, #ccffff 100%) no-repeat fixed center;
+	width:100%
+}
+div.ma h1{
+font-family:Algerian;
+ text-shadow: 1px 1px 1px #000;
+color:#990000;
+}
+</style>
+		    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+		
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		
+		<script>
+		
+var serverResult="";
+
+		$(document).ready(function()
+		{
+			$.ajax({
+  				method: "GET",
+  				crossDomain: true,
+  				url: "https://www.thecocktaildb.com/api/json/v1/1/filter.php?g=Cocktail_glass",
+  				dataType: "json",
+  				async: true,
+  				success: function(data) {
+				serverResult=data;
+  					$("#div").html("");
+  				content="<table class='table table-hover table-striped table-condensed' style='width:100%'>";
+			content+="<tr><th>Name</th><th>Cocktail</th><th>DrinkID</th></tr>";
+  					for(a in data.drinks)
+  					{
+content+="<tr><td>"+data.drinks[a].strDrink+"</td><td>"+"<img height=100px width=100px src='"+data.drinks[a].strDrinkThumb+"'>"+"</td><td>"+data.drinks[a].idDrink+"</td></tr>";
+  					}
+  					$("#div").append(content);
+  				},
+  				error: function() {
+    				infoContent = "<div>Sorry, data is not coming through. Refresh and try again.</div>";
+  					}
+		});
+		});
+			
+function getResult(){
+
+var isthere=false;
+var searchText=$("#gh").val();
+alert("you entered "+searchText );
+
+
+	content="<table class='table table-hover table-striped table-condensed' style='width:100%'>";
+			content+="<tr><th>Name</th><th>Cocktail</th><th>DrinkID</th></tr>";
+			
+for(index in serverResult.drinks){
+//alert(serverResult.drinks[index].drinks.id);
+
+if(serverResult.drinks[index].idDrink===searchText){
+//serverResult.drinks[index].strDrink, strDRinkThum
+//alert("Found");
+
+	content+="<tr><td>"+serverResult.drinks[index].strDrink+"</td><td>"+"<img height=100px width=100px src='"+serverResult.drinks[index].strDrinkThumb+"'>"+"</td><td>"+serverResult.drinks[index].idDrink+"</td></tr>";
+	isthere=true;
+	break;
+}
+}
+if(isthere==false){
+alert("No Available");
+}
+else{
+content+="</table>";
+}
+
+$("#div").html(content);
+
+//alert(serverResult);
+}
+
+
+				
+</script>
+</head>
+	<body>
+	
+	<div class = "header">
+	
+	<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <!--<a class="navbar-brand" href="#">Logo</a>-->
+	  
+	  <h2>The Food Villa</h2>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav navbar-right">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="#">Cocktails</a></li>
+        <li><a href="#">Meals</a></li>
+        <li><a href="#">Restaurant</a></li>
+      </ul>
+      <!--<ul class="nav navbar-nav navbar-right">
+        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      </ul>-->
+    </div>
+  </div>
+</nav>
+	</div>
+	<div class="ma">
+<center>
+	<h1>COCKTAIL MART</h1>
+		<hr/>
+		<video width="1000" height="600" autoplay="" muted="" loop="" controls="">
+    <source src="cov.mp4 " type="video/mp4">
+</video>
+    <font face="Gabriola" color="blue"><b> <font color="#990000"><h2>Enter DrinkId.....</h2></font>
+	 </b></font>  <input tye="text" id="gh"/>
+	   
+		<input type="button" value="PURCHASE" onclick="getResult()"/>
+		</center>
+
+
+
+		</div>
+		<center>
+			<div id="div">
+			</div>
+			
+			</center>
+	</body>
+</html>
